@@ -1,0 +1,101 @@
+.contents {
+  position: absolute;
+  width: 700px;
+  height: 400px;
+}
+
+.wrapper {
+  width: 300px;
+  height: 240px;
+  overflow-y: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #000;
+}
+
+.rootView {
+  width: 300px;
+  height: 200px;
+  overflow-y: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #000;
+}
+
+.tmpBox {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  width: 150px;
+  height: 150px;
+  padding: 4px;
+  margin-bottom: 6px;
+}
+
+.sampleBox {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  width: 150px;
+  background-color: rgb(245 170 140);
+  border: 2px solid rgb(201 126 17);
+  padding: 4px;
+  margin-bottom: 6px;
+}
+
+#box1 {
+  height: 200px;
+}
+
+#box2 {
+  height: 75px;
+}
+
+#box3 {
+  height: 150px;
+}
+
+#box4 {
+  height: 100px;
+}
+
+.label {
+  font:
+    14px "Open Sans",
+    "Arial",
+    sans-serif;
+  position: absolute;
+  margin: 0;
+  background-color: rgb(255 255 255 / 70%);
+  border: 1px solid rgb(0 0 0 / 70%);
+  width: 3em;
+  height: 18px;
+  padding: 2px;
+  text-align: center;
+}
+
+.topLeft {
+  left: 2px;
+  top: 2px;
+}
+
+.center {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.topRight {
+  right: 2px;
+  top: 2px;
+}
+
+.bottomLeft {
+  bottom: 2px;
+  left: 2px;
+}
+
+.bottomRight {
+  bottom: 2px;
+  right: 2px;
+}

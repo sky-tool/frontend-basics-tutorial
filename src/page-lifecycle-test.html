@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>增强的页面生命周期测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        #log {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        #currentState {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>增强的页面生命周期测试</h1>
+    <p>当前页面状态: <span id="currentState">Active</span></p>
+    <p>请尝试以下操作来测试不同的生命周期状态：</p>
+    <ul>
+        <li>切换到其他标签页或最小化窗口</li>
+        <li>返回此标签页</li>
+        <li>尝试关闭标签页（可能会看到 beforeunload 事件）</li>
+        <li>使用浏览器的后退/前进按钮</li>
+    </ul>
+    <div id="log"></div>
+
+    <script>
+        const log = document.getElementById('log');
+        const currentStateEl = document.getElementById('currentState');
+        let currentState = 'Active';
+
+        function addLog(message) {
+            const now = new Date();
+            log.innerHTML += `${now.toLocaleTimeString()}: ${message}<br>`;
+            log.scrollTop = log.scrollHeight;
+            let logMsg = now.toLocaleDateString() + '   ' + message
+            console.log(logMsg)
+            writeToLogFile(logMsg)
+        }
+
+        function writeToLogFile(logMessage) {
+            // 模拟将日志写入本地文件的操作
+            // 这里可以用浏览器的 localStorage 或 IndexedDB 来模拟存储
+            let logs = localStorage.getItem('logs') || '';
+            logs += logMessage + '\n';
+            localStorage.setItem('logs', logs);
+        }
+
+        function updateState(newState) {
+            currentState = newState;
+            currentStateEl.textContent = currentState;
+            addLog(`页面状态更新为: ${currentState}`);
+        }
+
+        // pageshow 事件
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                updateState('pageshow: Active (从 bfcache 恢复)');
+            } else {
+                updateState('pageshow: Active (首次加载)');
+            }
+        });
+
+        // focus 事件
+        window.addEventListener('focus', () => {
+            updateState('focus: Active (获得焦点)');
+        });
+
+        // blur 事件
+        window.addEventListener('blur', () => {
+            updateState('blur: Passive (失去焦点)');
+        });
+
+        // visibilitychange 事件
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                updateState('visibilitychange: Hidden');
+            } else {
+                updateState('visibilitychange: Active (可见性恢复)');
+            }
+        });
+
+        // resume 事件
+        if ('onresume' in document) {
+            document.addEventListener('resume', () => {
+                updateState('resume: Active (从冻结恢复)');
+            });
+        }
+
+        // freeze 事件
+        if ('onfreeze' in document) {
+            document.addEventListener('freeze', () => {
+                updateState('Frozen');
+            });
+        }
+
+        // beforeunload 事件
+        window.addEventListener('beforeunload', (event) => {
+            addLog('beforeunload 事件触发 (页面即将卸载)');
+            // 取消注释下面的行可以显示"确认离开"对话框
+            // event.preventDefault();
+            // event.returnValue = '';
+        });
+
+        // pagehide 事件
+        window.addEventListener('pagehide', (event) => {
+            if (event.persisted) {
+                updateState('pagehide: Passive (可能进入 bfcache)');
+            } else {
+                updateState('pagehide: Terminated (页面即将卸载)');
+            }
+        });
+
+        // unload 事件
+        window.addEventListener('unload', () => {
+            updateState('unload: Terminated (页面正在卸载)');
+        });
+
+
+        // 初始状态日志
+        addLog('页面初始化完成，当前为 Active 状态');
+    </script>
+</body>
+
+</html>

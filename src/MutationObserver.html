@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MutationObserver Height Change Demo</title>
+    <style>
+        #redElement {
+            background-color: red;
+            width: 100px;
+            transition: height 0.3s ease;
+        }
+        #log {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 100px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <input type="number" id="heightInput" placeholder="输入高度 (px)">
+    <div id="redElement"></div>
+    <div id="log"></div>
+
+    <script>
+        const heightInput = document.getElementById('heightInput');
+        const redElement = document.getElementById('redElement');
+        const log = document.getElementById('log');
+
+        // 更新红色元素的高度
+        heightInput.addEventListener('input', function() {
+            const height = this.value + 'px';
+            redElement.style.height = height;
+        });
+
+        // 创建 MutationObserver
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                    const newHeight = redElement.style.height;
+                    log.innerHTML += `高度变化检测到: ${newHeight}<br>`;
+                    log.scrollTop = log.scrollHeight;
+                }
+            });
+        });
+
+        // 配置 observer
+        const config = { attributes: true, attributeFilter: ['style'] };
+
+        // 开始观察目标节点
+        observer.observe(redElement, config);
+    </script>
+</body>
+</html>

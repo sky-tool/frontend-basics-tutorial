@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Line Height Demo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .demo-box { border: 1px solid #ccc; margin: 10px 0; padding: 10px; }
+        .controls { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const LineHeightDemo = () => {
+            const [lineHeight, setLineHeight] = React.useState(1.5);
+            const [fontSize, setFontSize] = React.useState(16);
+
+            return (
+                <div>
+                    <h2>Line Height Interactive Demo</h2>
+                    <div className="controls">
+                        <label>
+                            Line Height: 
+                            <input 
+                                type="number" 
+                                value={lineHeight} 
+                                onChange={(e) => setLineHeight(e.target.value)}
+                                step="0.1"
+                                min="0.5"
+                                max="3"
+                            />
+                        </label>
+                        <label style={{marginLeft: '10px'}}>
+                            Font Size: 
+                            <input 
+                                type="number" 
+                                value={fontSize} 
+                                onChange={(e) => setFontSize(e.target.value)}
+                                min="10"
+                                max="24"
+                            />
+                        </label>
+                    </div>
+                    <div 
+                        className="demo-box"
+                        style={{
+                            lineHeight: lineHeight,
+                            fontSize: `${fontSize}px`
+                        }}
+                    >
+                        This is a demonstration of how line-height affects text.<br/>
+                        Multiple lines show the spacing more clearly.<br/>
+                        Adjust the controls to see the effect.
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<LineHeightDemo />, document.getElementById('root'));
+    </script>
+</body>
+</html>

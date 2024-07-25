@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block vs Inline 显示类型对比</title>
+    <style>
+        .block-element {
+            display: block;
+            width: 200px;
+            height: 100px;
+            margin: 10px;
+            padding: 10px;
+            background-color: #ffcccc;
+            border: 2px solid #ff0000;
+        }
+        .inline-element {
+            display: inline;
+            width: 200px; /* 对inline元素无效 */
+            height: 100px; /* 对inline元素无效 */
+            margin: 10px; /* 水平方向有效，垂直方向无效 */
+            padding: 10px; /* 视觉上有效，但不会影响其他元素的位置 */
+            background-color: #ccffcc;
+            border: 2px solid #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <h1>Block vs Inline 显示类型对比</h1>
+    
+    <h2>Block 元素</h2>
+    <div class="block-element">这是一个 block 元素</div>
+    <div class="block-element">这是另一个 block 元素</div>
+    
+    <h2>Inline 元素</h2>
+    <span class="inline-element">这是一个 inline 元素</span>
+    <span class="inline-element">这是另一个 inline 元素</span>
+    
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>右对齐控制栏示例</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .container {
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        /* 方法1: 使用 text-align: right */
+        .controls-text-align {
+            text-align: right;
+        }
+        /* 方法2: 使用 float: right */
+        .controls-float::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .controls-float > * {
+            float: right;
+            margin-left: 10px;
+        }
+        /* 方法3: 使用 flexbox */
+        .controls-flex {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .controls-flex > * {
+            margin-left: 10px;
+        }
+        /* 方法4: 使用 grid */
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr auto auto auto;
+            align-items: center;
+        }
+        .controls-grid > *:not(:first-child) {
+            margin-left: 10px;
+        }
+        /* 通用样式 */
+        .controls {
+            margin-bottom: 10px;
+        }
+        #paddingValue {
+            min-width: 40px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>右对齐控制栏示例</h1>
+
+    <div class="container">
+        <h2>1. 使用 text-align: right</h2>
+        <div class="controls controls-text-align">
+            <label for="padding1">Padding: </label>
+            <input type="range" id="padding1" min="0" max="50" value="10" oninput="updatePadding(this.value, 1)">
+            <span id="paddingValue1">10px</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>2. 使用 float: right</h2>
+        <div class="controls controls-float">
+            <span id="paddingValue2">10px</span>
+            <input type="range" id="padding2" min="0" max="50" value="10" oninput="updatePadding(this.value, 2)">
+            <label for="padding2">Padding: </label>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>3. 使用 flexbox</h2>
+        <div class="controls controls-flex">
+            <label for="padding3">Padding: </label>
+            <input type="range" id="padding3" min="0" max="50" value="10" oninput="updatePadding(this.value, 3)">
+            <span id="paddingValue3">10px</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>4. 使用 grid</h2>
+        <div class="controls controls-grid">
+            <div></div>
+            <label for="padding4">Padding: </label>
+            <input type="range" id="padding4" min="0" max="50" value="10" oninput="updatePadding(this.value, 4)">
+            <span id="paddingValue4">10px</span>
+        </div>
+    </div>
+
+    <script>
+        function updatePadding(value, id) {
+            document.getElementById('paddingValue' + id).textContent = value + 'px';
+        }
+    </script>
+</body>
+</html>

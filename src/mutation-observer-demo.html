@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MutationObserver DOM 变化监听演示</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            margin: 5px;
+        }
+
+        #log {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .highlight {
+            background-color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>MutationObserver DOM 变化监听演示</h1>
+
+    <div id="observedArea" class="container">
+        <div>
+            <h2 id="dynamicHeading">动态内容区域</h2>
+            <div id="div_spm_1" data-spm="spm-001">div_spm_1
+                <div id="div_spm_2" data-spm="spm-001">div_spm_2</div>
+            </div>
+        </div>
+        <p id="textContent">这是一些可以被修改的文本内容。</p>
+        <input type="text" id="textInput" value="可编辑的输入框">
+        <button id="addButton">添加元素</button>
+        <button id="removeButton">移除元素</button>
+        <button id="changeAttrButton">修改属性</button>
+        <button id="changeTextButton">修改文本</button>
+        <button id="changeSPM">修改SPM</button>
+    </div>
+
+    <div>
+        <h3>控制面板</h3>
+        <button id="startObserver">开始观察</button>
+        <button id="stopObserver">停止观察</button>
+    </div>
+
+    <div id="log"></div>
+
+    <script>
+        const observedArea = document.getElementById('observedArea');
+        const log = document.getElementById('log');
+        let observer;
+
+        function addLog(message) {
+            const logEntry = document.createElement('div');
+            logEntry.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            log.appendChild(logEntry);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function createObserver() {
+            const config = {
+                attributes: true,
+                childList: true,
+                subtree: true,
+                characterData: true
+            };
+
+            observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    switch (mutation.type) {
+                        case 'childList':
+                            if (mutation.addedNodes.length) {
+                                addLog(`添加了 ${mutation.addedNodes.length} 个新节点`);
+                            }
+                            if (mutation.removedNodes.length) {
+                                addLog(`移除了 ${mutation.removedNodes.length} 个节点`);
+                            }
+                            break;
+                        case 'attributes':
+                            addLog(`修改了属性 "${mutation.target.id}"  "${mutation.attributeName}"`);
+                            break;
+                        case 'characterData':
+                            addLog('文本内容被修改');
+                            break;
+                    }
+                });
+            });
+
+            observer.observe(observedArea, config);
+            addLog('开始观察 DOM 变化');
+        }
+
+        // 事件监听器
+        document.getElementById('startObserver').addEventListener('click', () => {
+            if (!observer) {
+                createObserver();
+            }
+        });
+
+        document.getElementById('stopObserver').addEventListener('click', () => {
+            if (observer) {
+                observer.disconnect();
+                observer = null;
+                addLog('停止观察 DOM 变化');
+            }
+        });
+
+        document.getElementById('addButton').addEventListener('click', () => {
+            const newElement = document.createElement('p');
+            newElement.textContent = '这是一个新添加的段落。';
+            observedArea.appendChild(newElement);
+        });
+
+        document.getElementById('removeButton').addEventListener('click', () => {
+            const lastChild = observedArea.lastElementChild;
+            if (lastChild && lastChild.id !== 'addButton') {
+                observedArea.removeChild(lastChild);
+            }
+        });
+
+        document.getElementById('changeAttrButton').addEventListener('click', () => {
+            const heading = document.getElementById('dynamicHeading');
+            heading.classList.toggle('highlight');
+        });
+
+        document.getElementById('changeTextButton').addEventListener('click', () => {
+            const textContent = document.getElementById('textContent');
+            textContent.textContent = '文本内容已被修改！ ' + new Date().toLocaleTimeString();
+        });
+
+        // 监听输入框的变化
+        document.getElementById('textInput').addEventListener('input', (event) => {
+            addLog(`输入框内容更新: ${event.target.value}`);
+        });
+
+        document.getElementById('changeSPM').addEventListener('click', () => {
+            const spm_1 = document.getElementById('div_spm_1');
+            const spm_2 = document.getElementById('div_spm_2');
+
+            let spmvalue = 'spm_' + new Date().getTime()
+            // spm_1.textContent = 'spm1 更改:   ' +  spmvalue;
+            // spm_2.textContent = 'spm2 更改:   ' +  spmvalue;
+
+            // 修改 data-spm 属性
+            spm_1.setAttribute('data-spm', spmvalue);
+            spm_2.setAttribute('data-spm', spmvalue);
+
+        })
+
+        // 初始化
+        createObserver();
+    </script>
+</body>
+
+</html>

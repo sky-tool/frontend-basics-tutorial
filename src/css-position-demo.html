@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Position 属性演示</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            border: 2px solid #333;
+            margin-bottom: 20px;
+            padding: 10px;
+            height: 200px;
+            position: relative;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .static {
+            position: static;
+        }
+        .relative {
+            position: relative;
+            top: 20px;
+            left: 20px;
+        }
+        .absolute {
+            position: absolute;
+            top: 40px;
+            right: 20px;
+        }
+        .fixed {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+        .sticky {
+            position: sticky;
+            top: 0;
+            background-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSS Position 属性演示</h1>
+
+    <div class="container">
+        <h2>Static (默认)</h2>
+        <div class="box static">Static</div>
+    </div>
+
+    <div class="container">
+        <h2>Relative</h2>
+        <div class="box relative">Relative</div>
+    </div>
+
+    <div class="container">
+        <h2>Absolute</h2>
+        <div class="box absolute">Absolute</div>
+    </div>
+
+    <div class="container">
+        <h2>Fixed</h2>
+        <p>Fixed 元素在右下角</p>
+    </div>
+
+    <div class="container" style="height: 400px; overflow-y: scroll;">
+        <h2>Sticky</h2>
+        <div class="box sticky">Sticky</div>
+        <p style="height: 1000px;">滚动来查看 Sticky 效果</p>
+    </div>
+
+    <div class="box fixed">Fixed</div>
+</body>
+</html>

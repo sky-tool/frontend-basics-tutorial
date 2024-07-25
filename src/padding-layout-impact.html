@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Padding对网页布局的影响</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .container {
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        .box {
+            background-color: #f0f0f0;
+            border: 1px solid #999;
+            margin: 5px;
+        }
+        .block {
+            display: block;
+        }
+        .inline {
+            display: inline;
+        }
+        .inline-block {
+            display: inline-block;
+        }
+        .content-box {
+            box-sizing: content-box;
+        }
+        .border-box {
+            box-sizing: border-box;
+        }
+        .controls {
+            position: sticky;
+            text-align: right;
+            top: 30px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Padding对网页布局的影响</h1>
+    
+    <div class="controls">
+        <label for="padding">Padding: </label>
+        <input type="range" id="padding" min="0" max="50" value="10" oninput="updatePadding(this.value)">
+        <span id="paddingValue">10px</span>
+    </div>
+
+    <div class="container">
+        <h2>Block 元素</h2>
+        <div class="box block" id="block">这是一个 block 元素</div>
+        <div>周围的文本</div>
+    </div>
+
+    <div class="container">
+        <h2>Inline 元素</h2>
+        <span class="box inline" id="inline">这是一个 inline 元素</span>
+        周围的文本
+    </div>
+
+    <div class="container">
+        <h2>Inline-block 元素</h2>
+        <span class="box inline-block" id="inline-block">这是一个 inline-block 元素</span>
+        周围的文本
+    </div>
+
+    <div class="container">
+        <h2>Content-box vs Border-box</h2>
+        <div class="box content-box" id="content-box" style="width: 200px;">Content-box</div>
+        <div class="box border-box" id="border-box" style="width: 200px;">Border-box</div>
+    </div>
+
+    <script>
+        function updatePadding(value) {
+            document.getElementById('paddingValue').textContent = value + 'px';
+            ['block', 'inline', 'inline-block', 'content-box', 'border-box'].forEach(id => {
+                document.getElementById(id).style.padding = value + 'px';
+            });
+        }
+    </script>
+</body>
+</html>
